@@ -19,19 +19,19 @@ char	*save_rest(char	*s);
 
 char	*get_next_line(int fd)
 {
-		static char	*str;
-		char		*new_line;
+	static char	*str;
+	char		*new_line;
 
-		if (fd < 0 || BUFFER_SIZE < 1)
-			return (NULL);
-		str = read_line(fd, str);
-		if (!str)
-			return (NULL);
-		new_line = save_line(str);
-		if(!new_line)
-			return (NULL);
-		str = save_rest(str);
-		return (new_line);
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return (NULL);
+	str = read_line(fd, str);
+	if (!str)
+		return (NULL);
+	new_line = save_line(str);
+	if (!new_line)
+		return (NULL);
+	str = save_rest(str);
+	return (new_line);
 }
 
 char	*read_line(int fd, char	*s)
@@ -46,10 +46,7 @@ char	*read_line(int fd, char	*s)
 	{
 		rd = read(fd, buffer, BUFFER_SIZE);
 		if (rd <= 0)
-		{
-			free (buffer);
-			return (s);
-		}
+			break ;
 		buffer[rd] = '\0';
 		if (s == NULL)
 		{
@@ -58,10 +55,7 @@ char	*read_line(int fd, char	*s)
 		}
 		s = ft_strjoin_free(s, buffer);
 		if (!s)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (free(buffer), NULL);
 	}
 	free (buffer);
 	return (s);

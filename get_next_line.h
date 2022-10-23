@@ -15,9 +15,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-#ifndef BUFFER_SIZE
-#	define BUFFER_SIZE 5
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
@@ -26,6 +26,5 @@ char	*ft_strchr(const char *s, int c);
 char	*read_line(int fd, char	*s);
 char	*save_line(char	*s);
 char	*save_rest(char	*s);
-
 
 #endif
