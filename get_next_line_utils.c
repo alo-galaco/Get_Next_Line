@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flcristi <flcristi@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: byoshimo <byoshimo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 03:01:08 by flcristi          #+#    #+#             */
-/*   Updated: 2022/10/17 23:16:45 by flcristi         ###   ########.fr       */
+/*   Updated: 2022/10/23 22:15:08 by byoshimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	}
 	while (s2[n2])
 	{
-		ptr[n1] = s2 [n2];
+		ptr[n1] = s2[n2];
 		n2++;
 		n1++;
 	}
 	ptr[n1] = '\0';
-	return (free(s1), free(s2), ptr);
+	return (free(s1), ptr);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -55,6 +55,8 @@ char	*ft_strchr(const char *s, int c)
 	char	ptr;
 
 	ptr = c;
+	if (!s)
+		return (NULL);
 	while (*s != ptr)
 	{
 		if (*s == '\0')

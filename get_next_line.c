@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flcristi <flcristi@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: byoshimo <byoshimo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 02:31:33 by flcristi          #+#    #+#             */
-/*   Updated: 2022/10/18 02:54:06 by flcristi         ###   ########.fr       */
+/*   Updated: 2022/10/23 22:34:46 by byoshimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,13 @@ char	*get_next_line(int fd)
 
 		if (fd < 0 || BUFFER_SIZE < 1)
 			return (NULL);
-		printf ("1");
-		str = read_line (fd, str);
-		printf ("2");
-		if (!ft_strlen(str))
-		{
-			free(str);
+		str = read_line(fd, str);
+		if (!str)
 			return (NULL);
-		}
 		new_line = save_line(str);
-		printf ("3");
 		if(!new_line)
 			return (NULL);
-		str = save_rest(new_line);
-		printf ("4");
+		str = save_rest(str);
 		return (new_line);
 }
 
@@ -46,20 +39,19 @@ char	*read_line(int fd, char	*s)
 	char	*buffer;
 	int		rd;
 
-	buffer = malloc(sizeof (char) * (BUFFER_SIZE + 1));
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	rd = 1;
-	while (rd > 0 && !ft_strchr(s, '\n'))
+	while (!ft_strchr(s, '\n'))
 	{
-		rd = read (fd, buffer, BUFFER_SIZE);
+		rd = read(fd, buffer, BUFFER_SIZE);
 		if (rd <= 0)
 		{
 			free (buffer);
 			return (s);
 		}
 		buffer[rd] = '\0';
-		if(s == NULL)
+		if (s == NULL)
 		{
 			s = malloc(1);
 			s[0] = '\0';
@@ -87,7 +79,7 @@ char	*save_line(char	*s)
 		i++;
 	if (s[i] == '\n')
 		i++;
-	line = (char *)malloc (sizeof(char) * (i + 1));
+	line = (char *)malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -97,9 +89,7 @@ char	*save_line(char	*s)
 		i++;
 	}
 	if (s[i] == '\n')
-	{
 		line[i++] = '\n';
-	}
 	line[i] = '\0';
 	return (line);
 }
