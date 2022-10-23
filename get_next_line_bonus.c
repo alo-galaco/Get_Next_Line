@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flcristi <flcristi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 02:31:33 by flcristi          #+#    #+#             */
-/*   Updated: 2022/10/23 18:25:28 by flcristi         ###   ########.fr       */
+/*   Created: 2022/10/23 18:20:43 by flcristi          #+#    #+#             */
+/*   Updated: 2022/10/23 18:23:49 by flcristi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include "stdio.h"
+#include "get_next_line_bonus.h"
 
 char	*read_line(int fd, char	*s);
 char	*save_line(char	*s);
@@ -19,18 +18,18 @@ char	*save_rest(char	*s);
 
 char	*get_next_line(int fd)
 {
-	static char	*str;
+	static char	*str[1024];
 	char		*new_line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	str = read_line(fd, str);
-	if (!str)
+	str[fd] = read_line(fd, str[fd]);
+	if (!str[fd])
 		return (NULL);
-	new_line = save_line(str);
+	new_line = save_line(str[fd]);
 	if (!new_line)
 		return (NULL);
-	str = save_rest(str);
+	str[fd] = save_rest(str[fd]);
 	return (new_line);
 }
 
@@ -98,10 +97,7 @@ char	*save_rest(char	*s)
 	while (s[i] && s[i] != '\n')
 		i++;
 	if ((s[i] == '\n' && s[i + 1] == '\0') || !s[i])
-	{
-		free (s);
-		return (NULL);
-	}
+		return (free(s), NULL);
 	rest = (char *)malloc(sizeof(char) * (ft_strlen(s) - i + 1));
 	if (!rest)
 		return (NULL);
